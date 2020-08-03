@@ -30,6 +30,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    aaptOptions {
+        noCompress "tflite"
+    }
 }
 
 dependencies {
@@ -52,5 +55,6 @@ dependencies {
     implementation "org.koin:koin-android-viewmodel:${versions.koin}"
 
     implementation 'com.google.mlkit:translate:16.1.0'
+    implementation 'com.google.mlkit:smart-reply:16.1.0'
 
 }

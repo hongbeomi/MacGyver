@@ -5,8 +5,4 @@ import com.google.mlkit.nl.translate.TranslateLanguage
 class ToKoreanTranslator: TranslatorManager(
     TranslateLanguage.KOREAN,
     TranslateLanguage.ENGLISH
-) {
-
-
-
-}
+)
