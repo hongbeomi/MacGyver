@@ -56,5 +56,6 @@ dependencies {
 
     implementation 'com.google.mlkit:translate:16.1.0'
     implementation 'com.google.mlkit:smart-reply:16.1.0'
+    implementation 'com.google.mlkit:language-id:16.1.0'
 
 }
