@@ -1,4 +1,4 @@
-package github.hongbeomi.macgyver
+package github.hongbeomi.macgyver.ui
 
 import androidx.lifecycle.ViewModel
 

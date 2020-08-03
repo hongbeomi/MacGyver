@@ -50,4 +50,7 @@ dependencies {
 
     implementation "org.koin:koin-android:${versions.koin}"
     implementation "org.koin:koin-android-viewmodel:${versions.koin}"
+
+    implementation 'com.google.mlkit:translate:16.1.0'
+
 }
