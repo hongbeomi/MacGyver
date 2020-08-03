@@ -33,7 +33,7 @@ abstract class TranslatorManager(sourceLanguage: String, targetLanguage: String)
             .addOnFailureListener(doOnFailure)
     }
 
-    fun translate(
+    fun startTranslate(
         text: String,
         doOnSuccess: (String) -> Unit,
         doOnFailure: (Exception) -> Unit
