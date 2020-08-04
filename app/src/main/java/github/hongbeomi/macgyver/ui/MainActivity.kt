@@ -5,7 +5,7 @@ import android.os.Bundle
 import github.hongbeomi.macgyver.R
 import github.hongbeomi.macgyver.mlkit.translator.ToEnglishTranslator
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
