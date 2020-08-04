@@ -6,7 +6,7 @@ import com.google.mlkit.vision.text.TextRecognition
 
 class TextRecognitionManager {
 
-    val recognizer = TextRecognition.getClient()
+    private val recognizer = TextRecognition.getClient()
 
     fun loadProcess(image: InputImage, doOnSuccess: (Text) -> Unit) {
         val result = recognizer.process(image)
