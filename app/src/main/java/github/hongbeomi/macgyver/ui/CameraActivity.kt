@@ -71,9 +71,12 @@ class CameraActivity : BaseActivity() {
                 imageAnalyzer = ImageAnalysis.Builder()
                     .build()
                     .also {
-                        it.setAnalyzer(cameraExecutor, LuminosityAnalyzer {
-                            Log.d(TAG, "Average luminosity: $it")
-                        })
+                        it.setAnalyzer(
+                            cameraExecutor, LuminosityAnalyzer(
+                                { Log.d(TAG, "Average luminosity: $it") },
+                                { TODO() }
+                            )
+                        )
                     }
 
                 val cameraSelector =
