@@ -8,6 +8,7 @@ buildscript {
     ext.versions = [
             'lifecycle': '2.2.0',
             'koin'     : '2.0.1',
+            'cameraX'  : '1.0.0-beta03',
     ]
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.0-beta01"
