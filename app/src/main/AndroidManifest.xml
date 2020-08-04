@@ -14,7 +14,7 @@
         android:theme="@style/Theme.MacGyver">
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
-            android:value="ocr,barcode" />
+            android:value="ocr,barcode,face" />
 
         <activity android:name=".ui.MainActivity">
             <intent-filter>
