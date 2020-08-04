@@ -9,7 +9,7 @@ class TextRecognitionManager {
     private val recognizer = TextRecognition.getClient()
 
     fun loadProcess(image: InputImage, doOnSuccess: (Text) -> Unit) {
-        val result = recognizer.process(image)
+        recognizer.process(image)
             .addOnSuccessListener(doOnSuccess)
             .addOnFailureListener {
                 // TODO: 2020/08/04
