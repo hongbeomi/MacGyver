@@ -7,6 +7,6 @@ import androidx.databinding.ViewDataBinding
 open class BaseActivity: AppCompatActivity() {
 
     protected fun <T : ViewDataBinding> binding(resId: Int): Lazy<T> =
-        lazy { DataBindingUtil.setContentView(this, resId) }
+        lazy { DataBindingUtil.setContentView<T>(this, resId) }
 
 }
