@@ -13,7 +13,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import github.hongbeomi.macgyver.R
 import github.hongbeomi.macgyver.databinding.ActivityCameraBinding
-import github.hongbeomi.macgyver.mlkit.image_label.ImageLabelingManager
+import github.hongbeomi.macgyver.mlkit.image_label.ImageLabelingProcessor
+import github.hongbeomi.macgyver.mlkit.text_recognition.TextRecognitionProcessor
+import github.hongbeomi.macgyver.mlkit.translator.ToEnglishTranslator
+import github.hongbeomi.macgyver.mlkit.translator.ToKoreanTranslator
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -60,7 +63,6 @@ class CameraActivity : BaseActivity() {
         cameraProviderFuture.addListener(
             Runnable {
                 val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-
                 preview = Preview.Builder().build()
 
                 imageAnalyzer = ImageAnalysis.Builder()
@@ -69,7 +71,7 @@ class CameraActivity : BaseActivity() {
                     .also {
                         it.setAnalyzer(
                             cameraExecutor,
-                            ImageLabelingManager {
+                            ImageLabelingProcessor {
                                 binding.textViewCameraResult.text = it.map { it.text }.toString()
                             }
                         )

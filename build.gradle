@@ -3,6 +3,7 @@ buildscript {
     ext.kotlin_version = "1.3.72"
     repositories {
         google()
+        mavenLocal()
         jcenter()
     }
     ext.versions = [
@@ -22,6 +23,7 @@ buildscript {
 allprojects {
     repositories {
         google()
+        mavenLocal()
         jcenter()
     }
 }

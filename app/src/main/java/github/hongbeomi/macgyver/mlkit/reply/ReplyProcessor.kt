@@ -6,7 +6,7 @@ import com.google.mlkit.nl.smartreply.SmartReply
 import com.google.mlkit.nl.smartreply.SmartReplySuggestionResult
 import com.google.mlkit.nl.smartreply.TextMessage
 
-class ReplyManager {
+class ReplyProcessor {
 
     private val smartReplyGenerator = SmartReply.getClient()
     private val conversation = mutableListOf<TextMessage>()

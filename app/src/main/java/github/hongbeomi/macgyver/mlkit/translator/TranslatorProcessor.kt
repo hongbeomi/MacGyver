@@ -5,29 +5,28 @@ import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.Translator
 import com.google.mlkit.nl.translate.TranslatorOptions
+import kotlinx.coroutines.runBlocking
 
-abstract class TranslatorManager(sourceLanguage: String, targetLanguage: String) {
+abstract class TranslatorProcessor(sourceLanguage: String, targetLanguage: String) {
 
     private val options = TranslatorOptions.Builder()
         .setSourceLanguage(sourceLanguage)
         .setTargetLanguage(targetLanguage)
         .build()
-    private var conditions: DownloadConditions? = null
+    lateinit var conditions: DownloadConditions
     private val translator: Translator = Translation.getClient(options)
 
     init {
-        downloadModel { Log.d("translator", "download success") }
+        downloadModel()
     }
 
-    private fun downloadModel(doOnSuccess: (Void) -> Unit) {
+    private fun downloadModel() {
         conditions = DownloadConditions.Builder()
             .requireWifi()
             .build()
-        translator.downloadModelIfNeeded()
-            .addOnSuccessListener(doOnSuccess)
-            .addOnFailureListener {
-                TODO()
-            }
+        translator.downloadModelIfNeeded(conditions)
+            .addOnSuccessListener { Log.d("translator", "download success") }
+            .addOnFailureListener { Log.e("??", it.toString()) }
     }
 
     fun startTranslate(
@@ -36,7 +35,7 @@ abstract class TranslatorManager(sourceLanguage: String, targetLanguage: String)
     ) {
         translator.translate(text)
             .addOnSuccessListener(doOnSuccess)
-            .addOnFailureListener { TODO() }
+            .addOnFailureListener { Log.e("???????/", it.toString()) }
     }
 
 }

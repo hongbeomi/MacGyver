@@ -6,7 +6,7 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import github.hongbeomi.macgyver.camerax.BaseImageAnalyzer
 
-class BarcodeScannerManager(override var doOnSuccess: (List<Barcode>) -> Unit) : BaseImageAnalyzer<Barcode>() {
+class BarcodeScannerProcessor(override var doOnSuccess: (List<Barcode>) -> Unit) : BaseImageAnalyzer<List<Barcode>>() {
 
     private val options = BarcodeScannerOptions.Builder()
         .setBarcodeFormats(

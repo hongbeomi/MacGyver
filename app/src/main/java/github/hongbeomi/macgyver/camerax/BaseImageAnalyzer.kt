@@ -14,11 +14,11 @@ import java.nio.ByteBuffer
 
 abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
 
-    abstract var doOnSuccess: (List<T>) -> Unit
-    abstract val process: Task<List<T>>?
+    abstract var doOnSuccess: (T) -> Unit
+    abstract val process: Task<T>?
     var image: InputImage? = null
 
-    private fun Task<List<T>>.startProcess(closeProxy: () -> Unit) {
+    private fun Task<T>.startProcess(closeProxy: () -> Unit) {
         this.addOnSuccessListener {
             doOnSuccess(it)
             closeProxy()

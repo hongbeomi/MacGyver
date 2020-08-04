@@ -2,7 +2,7 @@ package github.hongbeomi.macgyver.mlkit.lang_id
 
 import com.google.mlkit.nl.languageid.LanguageIdentification
 
-class LangIdManager {
+class LangIdProcessor {
 
     private val languageIdentity = LanguageIdentification.getClient()
 

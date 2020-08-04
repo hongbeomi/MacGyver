@@ -6,7 +6,7 @@ import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
 import github.hongbeomi.macgyver.camerax.BaseImageAnalyzer
 
-class FaceDetectionManager(override var doOnSuccess: (List<Face>) -> Unit) : BaseImageAnalyzer<Face>() {
+class FaceDetectionProcessor(override var doOnSuccess: (List<Face>) -> Unit) : BaseImageAnalyzer<List<Face>>() {
 
     private val highAccuracyOpts = FaceDetectorOptions.Builder()
         .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)

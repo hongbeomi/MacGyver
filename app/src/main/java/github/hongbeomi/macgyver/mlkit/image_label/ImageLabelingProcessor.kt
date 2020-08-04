@@ -6,7 +6,7 @@ import com.google.mlkit.vision.label.ImageLabeling
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions
 import github.hongbeomi.macgyver.camerax.BaseImageAnalyzer
 
-class ImageLabelingManager (override var doOnSuccess: (List<ImageLabel>) -> Unit) : BaseImageAnalyzer<ImageLabel>() {
+class ImageLabelingProcessor (override var doOnSuccess: (List<ImageLabel>) -> Unit) : BaseImageAnalyzer<List<ImageLabel>>() {
 
     private val labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS)
 
