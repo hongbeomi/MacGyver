@@ -1,12 +1,12 @@
 package github.hongbeomi.macgyver.mlkit.face_detection
 
-import com.google.mlkit.vision.common.InputImage
+import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
-import com.google.mlkit.vision.face.FaceDetector
 import com.google.mlkit.vision.face.FaceDetectorOptions
+import github.hongbeomi.macgyver.camerax.BaseImageAnalyzer
 
-class FaceDetectionManager {
+class FaceDetectionManager(override var doOnSuccess: (List<Face>) -> Unit) : BaseImageAnalyzer<Face>() {
 
     private val highAccuracyOpts = FaceDetectorOptions.Builder()
         .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
@@ -20,12 +20,7 @@ class FaceDetectionManager {
 
     private val detector = FaceDetection.getClient(realTimeOpts)
 
-    fun detect(image: InputImage, doOnSuccess: (MutableList<Face>) -> Unit) {
-        detector.process(image)
-            .addOnSuccessListener(doOnSuccess)
-            .addOnFailureListener {
-                // TODO: 2020/08/04
-            }
-    }
+    override val process: Task<List<Face>>?
+        get() = image?.let { detector.process(it) }
 
 }

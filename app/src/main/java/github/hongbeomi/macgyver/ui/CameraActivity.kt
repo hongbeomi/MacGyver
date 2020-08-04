@@ -12,10 +12,9 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import github.hongbeomi.macgyver.R
-import github.hongbeomi.macgyver.camerax.LuminosityAnalyzer
 import github.hongbeomi.macgyver.databinding.ActivityCameraBinding
+import github.hongbeomi.macgyver.mlkit.image_label.ImageLabelingManager
 import java.io.File
-import java.lang.Exception
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -37,10 +36,6 @@ class CameraActivity : BaseActivity() {
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
         }
-
-        // FIXME: 2020/08/04
-        binding.buttonCameraCapture.setOnClickListener { takePhoto() }
-
         outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
@@ -69,13 +64,14 @@ class CameraActivity : BaseActivity() {
                 preview = Preview.Builder().build()
 
                 imageAnalyzer = ImageAnalysis.Builder()
+                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                     .build()
                     .also {
                         it.setAnalyzer(
-                            cameraExecutor, LuminosityAnalyzer(
-                                { Log.d(TAG, "Average luminosity: $it") },
-                                { TODO() }
-                            )
+                            cameraExecutor,
+                            ImageLabelingManager {
+                                binding.textViewCameraResult.text = it.map { it.text }.toString()
+                            }
                         )
                     }
 
@@ -98,11 +94,7 @@ class CameraActivity : BaseActivity() {
         )
     }
 
-    private fun takePhoto() {
-        // TODO: 2020/08/04
-    }
-
-    fun getOutputDirectory(): File {
+    private fun getOutputDirectory(): File {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
         }

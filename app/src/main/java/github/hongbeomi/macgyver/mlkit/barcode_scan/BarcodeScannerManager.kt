@@ -1,11 +1,12 @@
 package github.hongbeomi.macgyver.mlkit.barcode_scan
 
+import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.google.mlkit.vision.common.InputImage
+import github.hongbeomi.macgyver.camerax.BaseImageAnalyzer
 
-class BarcodeScannerManager {
+class BarcodeScannerManager(override var doOnSuccess: (List<Barcode>) -> Unit) : BaseImageAnalyzer<Barcode>() {
 
     private val options = BarcodeScannerOptions.Builder()
         .setBarcodeFormats(
@@ -13,15 +14,9 @@ class BarcodeScannerManager {
             Barcode.FORMAT_AZTEC
         )
         .build()
-    val scanner = BarcodeScanning.getClient(options)
+    private val scanner = BarcodeScanning.getClient(options)
 
-    fun loadProcess(image: InputImage, doOnSuccess: (MutableList<Barcode>) -> Unit) {
-        scanner.process(image)
-            .addOnSuccessListener(doOnSuccess)
-            .addOnFailureListener {
-                // TODO: 2020/08/04
-            }
-    }
-
+    override val process: Task<List<Barcode>>?
+        get() = image?.let { scanner.process(it) }
 
 }
