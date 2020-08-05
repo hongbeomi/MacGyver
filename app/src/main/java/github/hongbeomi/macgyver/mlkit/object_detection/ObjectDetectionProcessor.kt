@@ -18,5 +18,4 @@ class ObjectDetectionProcessor(override var doOnSuccess: (List<DetectedObject>) 
     override val process: Task<List<DetectedObject>>?
         get() = image?.let { detector.process(it) }
 
-
 }
