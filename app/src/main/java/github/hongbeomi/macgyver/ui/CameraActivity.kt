@@ -14,9 +14,6 @@ import androidx.core.content.ContextCompat
 import github.hongbeomi.macgyver.R
 import github.hongbeomi.macgyver.databinding.ActivityCameraBinding
 import github.hongbeomi.macgyver.mlkit.image_label.ImageLabelingProcessor
-import github.hongbeomi.macgyver.mlkit.text_recognition.TextRecognitionProcessor
-import github.hongbeomi.macgyver.mlkit.translator.ToEnglishTranslator
-import github.hongbeomi.macgyver.mlkit.translator.ToKoreanTranslator
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -51,8 +48,7 @@ class CameraActivity : BaseActivity() {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
-                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
@@ -71,9 +67,7 @@ class CameraActivity : BaseActivity() {
                     .also {
                         it.setAnalyzer(
                             cameraExecutor,
-                            ImageLabelingProcessor {
-                                binding.textViewCameraResult.text = it.map { it.text }.toString()
-                            }
+                            ImageLabelingProcessor()
                         )
                     }
 

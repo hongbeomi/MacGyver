@@ -11,7 +11,11 @@
         android:layout_height="400dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+        <github.hongbeomi.macgyver.camerax.GraphicOverlay
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </androidx.camera.view.PreviewView>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView_camera_result"
