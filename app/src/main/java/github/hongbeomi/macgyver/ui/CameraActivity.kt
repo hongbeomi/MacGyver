@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import github.hongbeomi.macgyver.R
 import github.hongbeomi.macgyver.databinding.ActivityCameraBinding
 import github.hongbeomi.macgyver.mlkit.face_detection.FaceContourDetectionProcessor
+import github.hongbeomi.macgyver.mlkit.text_recognition.TextRecognitionProcessor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -65,7 +66,7 @@ class CameraActivity : BaseActivity() {
                     .also {
                         it.setAnalyzer(
                             cameraExecutor,
-                            FaceContourDetectionProcessor(binding.graphicOverlayFinder)
+                            TextRecognitionProcessor(binding.graphicOverlayFinder)
                         )
                     }
 

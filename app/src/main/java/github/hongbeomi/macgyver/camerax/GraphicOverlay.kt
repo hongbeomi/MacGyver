@@ -35,15 +35,16 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
         val applicationContext: Context
             get() = overlay.context.applicationContext
 
-        fun calculateRect(width: Float, height: Float, boundingBoxT: Rect): RectF {
-            val scaleX = overlay.width.toFloat() / width
-            val scaleY = overlay.height.toFloat() / height
+        fun calculateRect(height: Float, width: Float, boundingBoxT: Rect): RectF {
+
+            val scaleX = overlay.width.toFloat() / height
+            val scaleY = overlay.height.toFloat() / width
             val scale = scaleX.coerceAtLeast(scaleY)
             overlay.mScale = scale
 
             // Calculate offset (we need to center the overlay on the target)
-            val offsetX = (overlay.width.toFloat() - ceil(width * scale)) / 2.0f
-            val offsetY = (overlay.height.toFloat() - ceil(height * scale)) / 2.0f
+            val offsetX = (overlay.width.toFloat() - ceil(height * scale)) / 2.0f
+            val offsetY = (overlay.height.toFloat() - ceil(width * scale)) / 2.0f
 
             overlay.mOffsetX = offsetX
             overlay.mOffsetY = offsetY

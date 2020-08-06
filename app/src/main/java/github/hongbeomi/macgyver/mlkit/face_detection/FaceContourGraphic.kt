@@ -32,7 +32,7 @@ class FaceContourGraphic(
         boxPaint.strokeWidth = BOX_STROKE_WIDTH
     }
 
-    fun Canvas.drawFace(facePosition: Int, @ColorInt selectedColor: Int) {
+    private fun Canvas.drawFace(facePosition: Int, @ColorInt selectedColor: Int) {
         val contour = face.getContour(facePosition)
         val path = Path()
         contour?.points?.forEachIndexed { index, pointF ->
@@ -60,7 +60,6 @@ class FaceContourGraphic(
         val x = face.boundingBox.centerX().toFloat()
         val y = face.boundingBox.centerY().toFloat()
         canvas?.drawCircle(x, y, FACE_POSITION_RADIUS, facePositionPaint)
-        canvas?.drawText("id: ${face.trackingId}", x + ID_X_OFFSET, y + ID_Y_OFFSET, idPaint)
 
         val rect = calculateRect(
             imageRect.height().toFloat(),
@@ -106,8 +105,6 @@ class FaceContourGraphic(
     companion object {
         private const val FACE_POSITION_RADIUS = 4.0f
         private const val ID_TEXT_SIZE = 30.0f
-        private const val ID_Y_OFFSET = 80.0f
-        private const val ID_X_OFFSET = -70.0f
         private const val BOX_STROKE_WIDTH = 5.0f
     }
 
