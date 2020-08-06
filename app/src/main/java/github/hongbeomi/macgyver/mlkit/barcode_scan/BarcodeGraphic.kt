@@ -1,13 +1,14 @@
 package github.hongbeomi.macgyver.mlkit.barcode_scan
 
-import android.graphics.*
-import android.util.Log
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
 import com.google.mlkit.vision.barcode.Barcode
-import com.google.mlkit.vision.label.ImageLabel
 import github.hongbeomi.macgyver.camerax.GraphicOverlay
 
 class BarcodeGraphic(
-    private val overlay: GraphicOverlay,
+    overlay: GraphicOverlay,
     private val barcode: Barcode,
     private val imageRect: Rect
 ) : GraphicOverlay.Graphic(overlay) {
@@ -23,13 +24,9 @@ class BarcodeGraphic(
         textSize = TEXT_SIZE
     }
 
-    /**
-     * Draws the barcode block annotations for position, size, and raw value on the supplied canvas.
-     */
     override fun draw(canvas: Canvas?) {
         // Draws the bounding box around the BarcodeBlock.
         barcode.boundingBox?.let { box ->
-            Log.d("boxx", box.flattenToString())
             val rect = calculateRect(
                 imageRect.height().toFloat(),
                 imageRect.width().toFloat(),

@@ -16,6 +16,7 @@ class BarcodeScannerProcessor(private val view: GraphicOverlay) : BaseImageAnaly
     private val options = BarcodeScannerOptions.Builder().build()
     private val scanner = BarcodeScanning.getClient(options)
 
+
     override val graphicOverlay: GraphicOverlay
         get() = view
 
