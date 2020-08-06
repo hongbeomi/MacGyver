@@ -1,21 +1,61 @@
 package github.hongbeomi.macgyver.mlkit.object_detection
 
+import android.graphics.Rect
+import android.util.Log
 import com.google.android.gms.tasks.Task
-import com.google.mlkit.vision.label.ImageLabel
+import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.ObjectDetection
 import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
 import github.hongbeomi.macgyver.camerax.BaseImageAnalyzer
+import github.hongbeomi.macgyver.camerax.GraphicOverlay
+import java.io.IOException
+import java.lang.Exception
 
-class ObjectDetectionProcessor(override var doOnSuccess: (List<DetectedObject>) -> Unit) : BaseImageAnalyzer<List<DetectedObject>>() {
+class ObjectDetectionProcessor(private val view: GraphicOverlay) : BaseImageAnalyzer<List<DetectedObject>>(){
 
     private val options = ObjectDetectorOptions.Builder()
         .setDetectorMode(ObjectDetectorOptions.STREAM_MODE)
+        .enableMultipleObjects()
         .enableClassification()
         .build()
     private val detector = ObjectDetection.getClient(options)
 
-    override val process: Task<List<DetectedObject>>?
-        get() = image?.let { detector.process(it) }
+    override val graphicOverlay: GraphicOverlay
+        get() = view
+
+    override fun detectInImage(image: InputImage): Task<List<DetectedObject>> {
+        return detector.process(image)
+    }
+
+    override fun stop() {
+        try {
+            detector.close()
+        } catch (e: IOException) {
+            Log.e(TAG, "Exception thrown while trying to close Text Detector: $e")
+        }
+    }
+
+    override fun onSuccess(
+        results: List<DetectedObject>,
+        graphicOverlay: GraphicOverlay,
+        rect: Rect
+    ) {
+        graphicOverlay.clear()
+        results.forEach {
+            val labelGraphic = ObjectGraphic(graphicOverlay, it, rect)
+            graphicOverlay.add(labelGraphic)
+        }
+        graphicOverlay.postInvalidate()
+
+    }
+
+    override fun onFailure(e: Exception) {
+        Log.w(TAG, "Object detection failed.$e")
+    }
+
+    companion object {
+        private const val TAG = "ObjectProcessor"
+    }
 
 }

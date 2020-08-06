@@ -1,26 +1,21 @@
 package github.hongbeomi.macgyver.mlkit.image_label
 
-import android.graphics.Bitmap
+import android.graphics.Rect
 import android.util.Log
-import androidx.camera.core.ImageProxy
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.label.ImageLabel
 import com.google.mlkit.vision.label.ImageLabeling
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions
 import github.hongbeomi.macgyver.camerax.BaseImageAnalyzer
-import github.hongbeomi.macgyver.camerax.CameraImageGraphic
 import github.hongbeomi.macgyver.camerax.GraphicOverlay
 import java.io.IOException
-import java.lang.Exception
 
-class ImageLabelingProcessor(private val view: GraphicOverlay) : BaseImageAnalyzer<List<ImageLabel>>() {
+class ImageLabelingProcessor(private val view: GraphicOverlay) :
+    BaseImageAnalyzer<List<ImageLabel>>() {
 
     private val options = ImageLabelerOptions.Builder().setConfidenceThreshold(0.5f).build()
     private val labeler = ImageLabeling.getClient(options)
-
-//    override val process: Task<List<ImageLabel>>?
-//        get() = image?.let { labeler.process(it) }
 
     override val graphicOverlay: GraphicOverlay
         get() = view
@@ -38,20 +33,14 @@ class ImageLabelingProcessor(private val view: GraphicOverlay) : BaseImageAnalyz
     }
 
     override fun onSuccess(
-        originalCameraImage: Bitmap,
         results: List<ImageLabel>,
-        imageProxy: ImageProxy,
-        graphicOverlay: GraphicOverlay
+        graphicOverlay: GraphicOverlay,
+        rect: Rect
     ) {
         graphicOverlay.clear()
-        originalCameraImage.let { image ->
-            val imageGraphic = CameraImageGraphic(graphicOverlay, image)
-            graphicOverlay.add(imageGraphic)
-        }
         val labelGraphic = LabelGraphic(graphicOverlay, results)
         graphicOverlay.add(labelGraphic)
         graphicOverlay.postInvalidate()
-
     }
 
     override fun onFailure(e: Exception) {

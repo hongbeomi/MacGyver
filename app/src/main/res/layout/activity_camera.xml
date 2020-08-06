@@ -1,34 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/previewView_finder"
-        android:layout_width="0dp"
-        android:layout_height="400dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-        <github.hongbeomi.macgyver.camerax.GraphicOverlay
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:fitsSystemWindows="true"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.camera.view.PreviewView
+            android:id="@+id/previewView_finder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </androidx.camera.view.PreviewView>
+            android:layout_height="match_parent">
+        </androidx.camera.view.PreviewView>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textView_camera_result"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/previewView_finder"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        <github.hongbeomi.macgyver.camerax.GraphicOverlay
+            android:id="@+id/graphicOverlay_finder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>

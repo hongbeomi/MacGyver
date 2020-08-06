@@ -13,8 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import github.hongbeomi.macgyver.R
 import github.hongbeomi.macgyver.databinding.ActivityCameraBinding
-import github.hongbeomi.macgyver.mlkit.image_label.ImageLabelingProcessor
-import java.io.File
+import github.hongbeomi.macgyver.mlkit.object_detection.ObjectDetectionProcessor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -24,7 +23,6 @@ class CameraActivity : BaseActivity() {
     private var preview: Preview? = null
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
-    private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +34,6 @@ class CameraActivity : BaseActivity() {
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
         }
-        outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
@@ -59,7 +56,8 @@ class CameraActivity : BaseActivity() {
         cameraProviderFuture.addListener(
             Runnable {
                 val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-                preview = Preview.Builder().build()
+                preview = Preview.Builder()
+                    .build()
 
                 imageAnalyzer = ImageAnalysis.Builder()
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
@@ -67,12 +65,13 @@ class CameraActivity : BaseActivity() {
                     .also {
                         it.setAnalyzer(
                             cameraExecutor,
-                            ImageLabelingProcessor()
+                            ObjectDetectionProcessor(binding.graphicOverlayFinder)
                         )
                     }
 
                 val cameraSelector =
-                    CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                    CameraSelector.Builder()
+                        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                         .build()
 
                 try {
@@ -88,14 +87,6 @@ class CameraActivity : BaseActivity() {
                 }
             }, ContextCompat.getMainExecutor(this)
         )
-    }
-
-    private fun getOutputDirectory(): File {
-        val mediaDir = externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
-        }
-        return if (mediaDir != null && mediaDir.exists())
-            mediaDir else filesDir
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
