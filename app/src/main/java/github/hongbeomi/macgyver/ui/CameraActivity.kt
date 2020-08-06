@@ -13,7 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import github.hongbeomi.macgyver.R
 import github.hongbeomi.macgyver.databinding.ActivityCameraBinding
-import github.hongbeomi.macgyver.mlkit.object_detection.ObjectDetectionProcessor
+import github.hongbeomi.macgyver.mlkit.barcode_scan.BarcodeScannerProcessor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -65,7 +65,7 @@ class CameraActivity : BaseActivity() {
                     .also {
                         it.setAnalyzer(
                             cameraExecutor,
-                            ObjectDetectionProcessor(binding.graphicOverlayFinder)
+                            BarcodeScannerProcessor(binding.graphicOverlayFinder)
                         )
                     }
 
