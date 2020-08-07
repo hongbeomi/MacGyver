@@ -24,7 +24,7 @@ class TextRecognitionGraphic(
     override fun draw(canvas: Canvas?) {
         element.boundingBox?.let { box ->
             val rect = calculateRect(imageRect.height().toFloat(), imageRect.width().toFloat(), box)
-            canvas?.drawRoundRect(rect, 8f, 8f, rectPaint)
+            canvas?.drawRoundRect(rect, ROUND_RECT_CORNER, ROUND_RECT_CORNER, rectPaint)
             canvas?.drawText(element.text, rect.left, rect.bottom, textPaint)
         }
     }
@@ -32,5 +32,6 @@ class TextRecognitionGraphic(
     companion object {
         private const val TEXT_COLOR = Color.WHITE
         private const val TEXT_SIZE = 54.0f
+        private const val ROUND_RECT_CORNER = 8F
     }
 }

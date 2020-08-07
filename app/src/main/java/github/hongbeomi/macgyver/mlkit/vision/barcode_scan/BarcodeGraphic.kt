@@ -27,13 +27,12 @@ class BarcodeGraphic(
     override fun draw(canvas: Canvas?) {
         // Draws the bounding box around the BarcodeBlock.
         barcode.boundingBox?.let { box ->
-
             val rect = calculateRect(
                 imageRect.height().toFloat(),
                 imageRect.width().toFloat(),
                 box
             )
-            canvas?.drawRoundRect(rect, 8f, 8f, rectPaint)
+            canvas?.drawRoundRect(rect, ROUND_RECT_CORNER, ROUND_RECT_CORNER, rectPaint)
 
             // Renders the barcode at the bottom of the box.
             barcode.rawValue?.let { value ->
@@ -47,6 +46,7 @@ class BarcodeGraphic(
         private const val TEXT_COLOR = Color.WHITE
         private const val TEXT_SIZE = 54.0f
         private const val STROKE_WIDTH = 4.0f
+        private const val ROUND_RECT_CORNER = 8f
     }
 
 }
