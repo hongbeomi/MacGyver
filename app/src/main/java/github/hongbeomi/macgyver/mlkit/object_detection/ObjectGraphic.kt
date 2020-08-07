@@ -15,9 +15,9 @@ class ObjectGraphic (
     private val textPaint: Paint
 
     init {
-        boxPaint.color = Color.WHITE
+        boxPaint.color = Color.GREEN
         boxPaint.style = Paint.Style.FILL
-        boxPaint.alpha = 50
+        boxPaint.alpha = 70
 
         textPaint = Paint()
         textPaint.color = Color.WHITE
@@ -27,8 +27,7 @@ class ObjectGraphic (
     override fun draw(canvas: Canvas?) {
         // change width & height because rocate
         val rect = calculateRect(imageRect.height().toFloat(), imageRect.width().toFloat(), visionObject.boundingBox)
-        canvas?.drawRoundRect(rect, 8f, 8f, boxPaint)
-
+        canvas?.drawRoundRect(rect, TEXT_ROUND_CORNER, TEXT_ROUND_CORNER, boxPaint)
         // Draws object text.
         if (visionObject.labels.isNotEmpty()) {
             canvas?.drawText(
@@ -42,5 +41,6 @@ class ObjectGraphic (
 
     companion object {
         private const val TEXT_SIZE = 54.0f
+        private const val TEXT_ROUND_CORNER = 8f
     }
 }

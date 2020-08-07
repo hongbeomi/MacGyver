@@ -10,9 +10,9 @@ import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
 import github.hongbeomi.macgyver.camerax.BaseImageAnalyzer
 import github.hongbeomi.macgyver.camerax.GraphicOverlay
 import java.io.IOException
-import java.lang.Exception
 
-class ObjectDetectionProcessor(private val view: GraphicOverlay) : BaseImageAnalyzer<List<DetectedObject>>(){
+class ObjectDetectionProcessor(private val view: GraphicOverlay) :
+    BaseImageAnalyzer<List<DetectedObject>>() {
 
     private val options = ObjectDetectorOptions.Builder()
         .setDetectorMode(ObjectDetectorOptions.STREAM_MODE)
