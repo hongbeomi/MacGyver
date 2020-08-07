@@ -9,10 +9,10 @@
 </br>
 
 <p align="center">
-<img src="https://github.com/hongbeomi/MacGyver/blob/master/image/barcode.jpeg" width="25%"/>
-<img src="https://github.com/hongbeomi/MacGyver/blob/master/image/face.jpeg" width="25%"/>
-<img src="https://github.com/hongbeomi/MacGyver/blob/master/image/object.jpeg" width="25%"/>
-<img src="https://github.com/hongbeomi/MacGyver/blob/master/image/text.jpeg" width="25%"/>
+<img src="https://github.com/hongbeomi/MacGyver/blob/master/image/barcode.jpeg" width="24%"/>
+<img src="https://github.com/hongbeomi/MacGyver/blob/master/image/face.jpeg" width="24%"/>
+<img src="https://github.com/hongbeomi/MacGyver/blob/master/image/object.jpeg" width="24%"/>
+<img src="https://github.com/hongbeomi/MacGyver/blob/master/image/text.jpeg" width="24%"/>
 </p>
 
 </br>
