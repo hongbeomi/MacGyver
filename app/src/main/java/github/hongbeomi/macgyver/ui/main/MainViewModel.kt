@@ -1,4 +1,4 @@
-package github.hongbeomi.macgyver.ui
+package github.hongbeomi.macgyver.ui.main
 
 import android.view.MenuItem
 import android.view.View

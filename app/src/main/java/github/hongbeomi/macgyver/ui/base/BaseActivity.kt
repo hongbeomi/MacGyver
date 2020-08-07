@@ -1,4 +1,4 @@
-package github.hongbeomi.macgyver.ui
+package github.hongbeomi.macgyver.ui.base
 
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity

@@ -1,23 +1,15 @@
-package github.hongbeomi.macgyver.ui
+package github.hongbeomi.macgyver.ui.main
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import androidx.camera.core.Camera
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import github.hongbeomi.macgyver.R
 import github.hongbeomi.macgyver.camerax.CameraManager
 import github.hongbeomi.macgyver.databinding.ActivityMainBinding
-import github.hongbeomi.macgyver.mlkit.vision.object_detection.ObjectDetectionProcessor
+import github.hongbeomi.macgyver.ui.base.BaseActivity
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class MainActivity : BaseActivity() {
 
@@ -37,7 +29,9 @@ class MainActivity : BaseActivity() {
             cameraManager.startCamera()
         } else {
             ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+                this,
+                REQUIRED_PERMISSIONS,
+                REQUEST_CODE_PERMISSIONS
             )
         }
     }

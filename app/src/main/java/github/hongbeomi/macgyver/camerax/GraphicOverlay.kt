@@ -94,7 +94,6 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
         synchronized(lock) { graphics.add(graphic) }
     }
 
-    /** Removes a graphic from the overlay.  */
     fun remove(graphic: Graphic) {
         synchronized(lock) { graphics.remove(graphic) }
         postInvalidate()
