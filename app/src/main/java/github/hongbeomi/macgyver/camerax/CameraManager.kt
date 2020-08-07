@@ -33,6 +33,7 @@ class CameraManager(
     private var cameraProvider: ProcessCameraProvider? = null
 
     private var imageAnalyzer: ImageAnalysis? = null
+
     // default face contour detection
     private var analyzerVisionType: VisionType = VisionType.Face
 
@@ -71,7 +72,7 @@ class CameraManager(
     private fun selectAnalyzer(): ImageAnalysis.Analyzer {
         return when (analyzerVisionType) {
             VisionType.Object -> ObjectDetectionProcessor(graphicOverlay)
-            VisionType.Text -> TextRecognitionProcessor(graphicOverlay)
+            VisionType.OCR -> TextRecognitionProcessor(graphicOverlay)
             VisionType.Face -> FaceContourDetectionProcessor(graphicOverlay)
             VisionType.Barcode -> BarcodeScannerProcessor(graphicOverlay)
         }
@@ -97,16 +98,21 @@ class CameraManager(
         }
     }
 
-    fun changeCameraSelector(cameraSelector: Int) {
+    fun changeCameraSelector() {
         cameraProvider?.unbindAll()
-        cameraSelectorOption = cameraSelector
+        cameraSelectorOption =
+            if (cameraSelectorOption == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT
+            else CameraSelector.LENS_FACING_BACK
+        graphicOverlay.toggleSelector()
         startCamera()
     }
 
     fun changeAnalyzer(visionType: VisionType) {
-        cameraProvider?.unbindAll()
-        analyzerVisionType = visionType
-        startCamera()
+        if (analyzerVisionType != visionType) {
+            cameraProvider?.unbindAll()
+            analyzerVisionType = visionType
+            startCamera()
+        }
     }
 
     companion object {

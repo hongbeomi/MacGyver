@@ -6,34 +6,23 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import androidx.camera.core.CameraSelector
+import kotlin.math.abs
 import kotlin.math.ceil
-
 
 open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
     View(context, attrs) {
+
     private val lock = Any()
     private val graphics: MutableList<Graphic> = ArrayList()
     var mScale: Float? = null
     var mOffsetX: Float? = null
     var mOffsetY: Float? = null
+    var cameraSelector: Int = CameraSelector.LENS_FACING_BACK
 
-    /**
-     * Base class for a custom graphics object to be rendered within the graphic overlay. Subclass
-     * this and implement the [Graphic.draw] method to define the graphics element. Add
-     * instances to the overlay using [GraphicOverlay.add].
-     */
     abstract class Graphic(private val overlay: GraphicOverlay) {
 
-        /**
-         * Draw the graphic on the supplied canvas. Drawing should use the following methods to convert
-         * to view coordinates for the graphics that are drawn:
-         * @param canvas drawing canvas
-         */
         abstract fun draw(canvas: Canvas?)
-
-        /** Returns the application context of the app.  */
-        val applicationContext: Context
-            get() = overlay.context.applicationContext
 
         fun calculateRect(height: Float, width: Float, boundingBoxT: Rect): RectF {
 
@@ -49,17 +38,30 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
             overlay.mOffsetX = offsetX
             overlay.mOffsetY = offsetY
 
-            return RectF().apply {
+            val mappedBox = RectF().apply {
                 left = boundingBoxT.right * scale + offsetX
                 top = boundingBoxT.top * scale + offsetY
                 right = boundingBoxT.left * scale + offsetX
                 bottom = boundingBoxT.bottom * scale + offsetY
             }
+
+            // for front mode
+            if (overlay.isFrontMode()) {
+                val centerX = overlay.width.toFloat() / 2
+                mappedBox.apply {
+                    left = centerX + (centerX - left)
+                    right = centerX - (right - centerX)
+                }
+            }
+            return mappedBox
         }
 
         fun translateX(horizontal: Float): Float {
-            return if (overlay.mScale != null && overlay.mOffsetX != null) {
+            return if (overlay.mScale != null && overlay.mOffsetX != null && !overlay.isFrontMode()) {
                 (horizontal * overlay.mScale!!) + overlay.mOffsetX!!
+            } else if (overlay.mScale != null && overlay.mOffsetX != null && overlay.isFrontMode()){
+                val centerX = overlay.width.toFloat() / 2
+                 centerX - ((horizontal * overlay.mScale!!) + overlay.mOffsetX!! - centerX)
             } else {
                 horizontal
             }
@@ -75,13 +77,19 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
 
     }
 
-    /** Removes all graphics from the overlay.  */
+    fun isFrontMode() = cameraSelector == CameraSelector.LENS_FACING_FRONT
+
+    fun toggleSelector() {
+        cameraSelector =
+            if (cameraSelector == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT
+            else CameraSelector.LENS_FACING_BACK
+    }
+
     fun clear() {
         synchronized(lock) { graphics.clear() }
         postInvalidate()
     }
 
-    /** Adds a graphic to the overlay.  */
     fun add(graphic: Graphic) {
         synchronized(lock) { graphics.add(graphic) }
     }
@@ -92,7 +100,6 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
         postInvalidate()
     }
 
-    /** Draws the overlay with its associated graphic objects.  */
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         synchronized(lock) {
@@ -101,4 +108,5 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
             }
         }
     }
+
 }

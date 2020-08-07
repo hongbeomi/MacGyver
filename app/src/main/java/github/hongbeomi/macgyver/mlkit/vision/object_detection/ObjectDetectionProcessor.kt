@@ -16,7 +16,6 @@ class ObjectDetectionProcessor(private val view: GraphicOverlay) :
 
     private val options = ObjectDetectorOptions.Builder()
         .setDetectorMode(ObjectDetectorOptions.STREAM_MODE)
-        .enableMultipleObjects()
         .enableClassification()
         .build()
     private val detector = ObjectDetection.getClient(options)

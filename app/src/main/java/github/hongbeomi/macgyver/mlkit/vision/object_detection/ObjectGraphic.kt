@@ -14,7 +14,7 @@ class ObjectGraphic (
     private val textPaint: Paint
 
     init {
-        boxPaint.color = Color.GREEN
+        boxPaint.color = Color.WHITE
         boxPaint.style = Paint.Style.FILL
         boxPaint.alpha = 70
 

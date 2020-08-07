@@ -28,8 +28,10 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createCameraManager()
-        binding.fabFinder.setOnClickListener {
-            binding.bottomNavigationViewFinder.transform(binding.fabFinder)
+        binding.apply {
+            lifecycleOwner = this@MainActivity
+            viewModel = this@MainActivity.viewModel
+            initViewModel()
         }
         if (allPermissionsGranted()) {
             cameraManager.startCamera()
@@ -51,6 +53,20 @@ class MainActivity : BaseActivity() {
                 Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT)
                     .show()
                 finish()
+            }
+        }
+    }
+
+    private fun initViewModel() {
+        viewModel.apply {
+            onItemSelectedEvent.observe(::getLifecycle) {
+                cameraManager.changeAnalyzer(it)
+            }
+            onFabButtonEvent.observe(::getLifecycle) {
+                it?.let {
+                    binding.bottomNavigationViewFinder.transform(binding.fabFinder)
+                    cameraManager.changeCameraSelector()
+                }
             }
         }
     }

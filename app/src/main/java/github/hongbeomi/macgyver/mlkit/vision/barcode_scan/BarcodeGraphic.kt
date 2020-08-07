@@ -36,7 +36,7 @@ class BarcodeGraphic(
 
             // Renders the barcode at the bottom of the box.
             barcode.rawValue?.let { value ->
-                canvas?.drawText(value, rect.left, rect.bottom, barcodePaint)
+                canvas?.drawText(value, rect.right, rect.bottom, barcodePaint)
             }
         }
 
