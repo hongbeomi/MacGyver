@@ -28,8 +28,8 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createCameraManager()
-        binding.fab.setOnClickListener {
-            binding.bottomNavigationView.transform(binding.fab)
+        binding.fabFinder.setOnClickListener {
+            binding.bottomNavigationViewFinder.transform(binding.fabFinder)
         }
         if (allPermissionsGranted()) {
             cameraManager.startCamera()

@@ -2,11 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="@null" />
+        android:icon="@drawable/ic_barcode_scanner"
+        android:title="@null"
+        android:enabled="true" />
 
     <item
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_face"
         android:title="@null" />
 
     <item
@@ -14,11 +15,13 @@
         android:title="@null" />
 
     <item
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="@null" />
+        android:icon="@drawable/ic_objects"
+        android:title="@null"
+        android:enabled="true"/>
 
     <item
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="@null" />
+        android:icon="@drawable/ic_ocr"
+        android:title="@null"
+        android:enabled="true"/>
 
 </menu>

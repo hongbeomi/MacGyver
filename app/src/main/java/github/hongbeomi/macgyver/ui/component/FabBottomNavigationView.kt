@@ -1,17 +1,16 @@
 package github.hongbeomi.macgyver.ui.component
 
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
 import android.util.AttributeSet
-import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import com.google.android.material.bottomappbar.BottomAppBarTopEdgeTreatment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
 import github.hongbeomi.macgyver.R
 
@@ -25,6 +24,7 @@ class FabBottomNavigationView @JvmOverloads constructor(
     private var fabSize = 0F
     var fabCradleMargin = 0F
     var fabCradleRoundedCornerRadius = 0F
+    var topCornerRadius = 0F
     var cradleVerticalOffset = 0F
 
     init {
@@ -33,6 +33,7 @@ class FabBottomNavigationView @JvmOverloads constructor(
         fabCradleMargin = ta.getDimension(R.styleable.FabBottomNavigationView_fab_cradle_margin, 0F)
         fabCradleRoundedCornerRadius =
             ta.getDimension(R.styleable.FabBottomNavigationView_fab_cradle_rounded_corner_radius, 0F)
+        topCornerRadius = ta.getDimension(R.styleable.FabBottomNavigationView_top_corner_radius, 0F)
         cradleVerticalOffset = ta.getDimension(R.styleable.FabBottomNavigationView_cradle_vertical_offset, 0F)
 
         topCurvedEdgeTreatment = BottomAppBarTopEdgeTreatment(fabCradleMargin, fabCradleRoundedCornerRadius, cradleVerticalOffset).apply {
@@ -41,10 +42,12 @@ class FabBottomNavigationView @JvmOverloads constructor(
 
         val shapeAppearanceModel = ShapeAppearanceModel.Builder()
             .setTopEdge(topCurvedEdgeTreatment)
+            .setTopLeftCorner(CornerFamily.ROUNDED, topCornerRadius)
+            .setTopRightCorner(CornerFamily.ROUNDED, topCornerRadius)
             .build()
 
         materialShapeDrawable = MaterialShapeDrawable(shapeAppearanceModel).apply {
-            setTint(ContextCompat.getColor(context, R.color.bottom_bar))
+            setTint(ContextCompat.getColor(context, R.color.navigation_tint))
             paintStyle = Paint.Style.FILL_AND_STROKE
         }
 
@@ -52,23 +55,11 @@ class FabBottomNavigationView @JvmOverloads constructor(
     }
 
     fun transform(fab: FloatingActionButton) {
-        if (fab.isVisible) {
-            fab.hide(object : FloatingActionButton.OnVisibilityChangedListener() {
-                override fun onHidden(fab: FloatingActionButton?) {
-                    super.onHidden(fab)
-                    ValueAnimator.ofFloat(materialShapeDrawable.interpolation, 0F).apply {
-                        addUpdateListener { materialShapeDrawable.interpolation = it.animatedValue as Float }
-                        start()
-                    }
-                }
-            })
-
-        } else {
-            ValueAnimator.ofFloat(materialShapeDrawable.interpolation, 1F).apply {
-                addUpdateListener { materialShapeDrawable.interpolation = it.animatedValue as Float }
-                doOnEnd { fab.show() }
-                start()
+        fab.hide(object : FloatingActionButton.OnVisibilityChangedListener() {
+            override fun onHidden(fab: FloatingActionButton?) {
+                super.onHidden(fab)
+                fab?.show()
             }
-        }
+        })
     }
 }
