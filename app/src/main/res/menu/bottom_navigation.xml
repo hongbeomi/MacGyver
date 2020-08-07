@@ -2,11 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/action_barcode_scan"
         android:icon="@drawable/ic_barcode_scanner"
         android:title="@null"
         android:enabled="true" />
 
     <item
+        android:id="@+id/action_face_detect"
         android:icon="@drawable/ic_face"
         android:title="@null" />
 
@@ -15,11 +17,13 @@
         android:title="@null" />
 
     <item
+        android:id="@+id/action_object_detect"
         android:icon="@drawable/ic_objects"
         android:title="@null"
         android:enabled="true"/>
 
     <item
+        android:id="@+id/action_ocr"
         android:icon="@drawable/ic_ocr"
         android:title="@null"
         android:enabled="true"/>
