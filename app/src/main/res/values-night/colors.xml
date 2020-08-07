@@ -3,9 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="navigation_tint">#FFFFFFFF</color>
-    <color name="navigation_icon_tint">#FF000000</color>
-    <color name="fab_tint">#FF000000</color>
-    <color name="fab_icon_tint">#FFFFFFFF</color>
+    <color name="navigation_tint">#FF000000</color>
+    <color name="navigation_icon_tint">#FFFFFFFF</color>
+    <color name="fab_tint">#FFFFFFFF</color>
+    <color name="fab_icon_tint">#FF000000</color>
     <color name="selected_color">#FF6200EE</color>
 </resources>
