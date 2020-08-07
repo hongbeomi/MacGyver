@@ -12,6 +12,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import github.hongbeomi.macgyver.R
+import github.hongbeomi.macgyver.camerax.CameraManager
 import github.hongbeomi.macgyver.databinding.ActivityMainBinding
 import github.hongbeomi.macgyver.mlkit.vision.object_detection.ObjectDetectionProcessor
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -21,22 +22,24 @@ import java.util.concurrent.Executors
 class MainActivity : BaseActivity() {
 
     private val binding by binding<ActivityMainBinding>(R.layout.activity_main)
-    private var preview: Preview? = null
     private val viewModel: MainViewModel by viewModel()
-    private var imageAnalyzer: ImageAnalysis? = null
-    private var camera: Camera? = null
-    private lateinit var cameraExecutor: ExecutorService
+    private lateinit var cameraManager: CameraManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        cameraManager = CameraManager(
+            this,
+            binding.previewViewFinder,
+            this,
+            binding.graphicOverlayFinder
+        )
         if (allPermissionsGranted()) {
-            startCamera()
+            cameraManager.startCamera()
         } else {
             ActivityCompat.requestPermissions(
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
         }
-        cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
     override fun onRequestPermissionsResult(
@@ -45,7 +48,7 @@ class MainActivity : BaseActivity() {
     ) {
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
-                startCamera()
+                cameraManager.startCamera()
             } else {
                 Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show()
                 finish()
@@ -53,50 +56,11 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        cameraProviderFuture.addListener(
-            Runnable {
-                val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-                preview = Preview.Builder()
-                    .build()
-
-                imageAnalyzer = ImageAnalysis.Builder()
-                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                    .build()
-                    .also {
-                        it.setAnalyzer(
-                            cameraExecutor,
-                            ObjectDetectionProcessor(binding.graphicOverlayFinder)
-                        )
-                    }
-
-                val cameraSelector =
-                    CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                        .build()
-
-                try {
-                    cameraProvider.unbindAll()
-                    camera = cameraProvider.bindToLifecycle(
-                        this, cameraSelector, preview, imageAnalyzer
-                    )
-                    preview?.setSurfaceProvider(
-                        binding.previewViewFinder.createSurfaceProvider()
-                    )
-                } catch (e: Exception) {
-                    Log.e(TAG, "Use case binding failed", e)
-                }
-            }, ContextCompat.getMainExecutor(this)
-        )
-    }
-
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
     companion object {
-        private const val TAG = "CameraXBasic"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
     }

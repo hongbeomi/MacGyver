@@ -16,13 +16,13 @@ import github.hongbeomi.macgyver.mlkit.vision.face_detection.FaceContourDetectio
 import github.hongbeomi.macgyver.mlkit.vision.object_detection.ObjectDetectionProcessor
 import github.hongbeomi.macgyver.mlkit.vision.text_recognition.TextRecognitionProcessor
 import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
-class CameraManager (
+class CameraManager(
     private val context: Context,
     private val finderView: PreviewView,
     private val lifecycleOwner: LifecycleOwner,
-    private val graphicOverlay: GraphicOverlay,
-    private val visionType: VisionType
+    private val graphicOverlay: GraphicOverlay
 ) {
 
     private var preview: Preview? = null
@@ -34,7 +34,15 @@ class CameraManager (
 
     private var imageAnalyzer: ImageAnalysis? = null
     // default face contour detection
-    private var analyzer: ImageAnalysis.Analyzer = FaceContourDetectionProcessor(graphicOverlay)
+    private var analyzerVisionType: VisionType = VisionType.Face
+
+    init {
+        createNewExecutor()
+    }
+
+    private fun createNewExecutor() {
+        cameraExecutor = Executors.newSingleThreadExecutor()
+    }
 
     fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
@@ -60,14 +68,13 @@ class CameraManager (
         )
     }
 
-    private fun selectAnalyzer() : ImageAnalysis.Analyzer {
-        analyzer =  when(visionType) {
+    private fun selectAnalyzer(): ImageAnalysis.Analyzer {
+        return when (analyzerVisionType) {
             VisionType.Object -> ObjectDetectionProcessor(graphicOverlay)
             VisionType.Text -> TextRecognitionProcessor(graphicOverlay)
             VisionType.Face -> FaceContourDetectionProcessor(graphicOverlay)
             VisionType.Barcode -> BarcodeScannerProcessor(graphicOverlay)
         }
-        return analyzer
     }
 
     private fun setCameraConfig(
@@ -93,6 +100,12 @@ class CameraManager (
     fun changeCameraSelector(cameraSelector: Int) {
         cameraProvider?.unbindAll()
         cameraSelectorOption = cameraSelector
+        startCamera()
+    }
+
+    fun changeAnalyzer(visionType: VisionType) {
+        cameraProvider?.unbindAll()
+        analyzerVisionType = visionType
         startCamera()
     }
 
