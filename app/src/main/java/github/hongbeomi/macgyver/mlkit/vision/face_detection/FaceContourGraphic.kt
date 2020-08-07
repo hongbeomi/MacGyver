@@ -56,10 +56,6 @@ class FaceContourGraphic(
     }
 
     override fun draw(canvas: Canvas?) {
-        // Draws a circle at the position of the detected face, with the face's track id below.
-        val x = face.boundingBox.centerX().toFloat()
-        val y = face.boundingBox.centerY().toFloat()
-        canvas?.drawCircle(x, y, FACE_POSITION_RADIUS, facePositionPaint)
 
         val rect = calculateRect(
             imageRect.height().toFloat(),
