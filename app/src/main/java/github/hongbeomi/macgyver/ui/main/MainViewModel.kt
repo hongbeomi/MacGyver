@@ -19,6 +19,7 @@ class MainViewModel : ViewModel() {
             R.id.action_object_detect -> postVisionType(VisionType.Object)
             R.id.action_ocr -> postVisionType(VisionType.OCR)
         }
+        item.isChecked = true
         return false
     }
 
@@ -26,9 +27,8 @@ class MainViewModel : ViewModel() {
         onFabButtonEvent.postValue(Unit)
     }
 
-    private fun postVisionType(type: VisionType): Boolean {
+    private fun postVisionType(type: VisionType) {
         onItemSelectedEvent.postValue(type)
-        return true
     }
 
 }

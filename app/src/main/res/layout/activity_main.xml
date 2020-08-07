@@ -38,7 +38,7 @@
         app:fab_size="64dp"
         app:top_corner_radius="16dp"
         app:labelVisibilityMode="unlabeled"
-        app:itemIconTint="@color/navigation_icon_tint"
+        app:itemIconTint="@color/bottom_nav_item_color"
         app:menu="@menu/bottom_navigation"
         bind:onNavigationItemSelected="@{viewModel::onBottomMenuClicked}"/>
 

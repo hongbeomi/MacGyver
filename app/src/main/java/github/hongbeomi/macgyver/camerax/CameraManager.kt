@@ -32,8 +32,8 @@ class CameraManager(
 
     private var imageAnalyzer: ImageAnalysis? = null
 
-    // default face contour detection
-    private var analyzerVisionType: VisionType = VisionType.Face
+    // default barcode scanner
+    private var analyzerVisionType: VisionType = VisionType.Barcode
 
     init {
         createNewExecutor()

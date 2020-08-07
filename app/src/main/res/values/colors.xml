@@ -12,5 +12,5 @@
     <color name="navigation_icon_tint">#FF000000</color>
     <color name="fab_tint">#FF000000</color>
     <color name="fab_icon_tint">#FFFFFFFF</color>
-    <color name="selected_color">#FFBB86FC</color>
+    <color name="selected_color">#FF6200EE</color>
 </resources>
