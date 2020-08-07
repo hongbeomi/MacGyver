@@ -4,10 +4,6 @@
 🤖 A simple application using Google's MLkit library and cameraX api.
 </p>
 
-![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat-square)
-
-</br>
-
 <p align="center">
 <img src="https://github.com/hongbeomi/MacGyver/blob/master/image/barcode.jpeg" width="24%"/>
 <img src="https://github.com/hongbeomi/MacGyver/blob/master/image/face.jpeg" width="24%"/>
@@ -19,7 +15,7 @@
 
 ## ⚡️ Download
 
-Go to ths [releases]() to download the APK
+Go to ths [releases](https://github.com/hongbeomi/MacGyver/releases/download/v1.0.0/app-debug.apk) to download the APK
 
 </br>
 
@@ -37,7 +33,7 @@ Go to ths [releases]() to download the APK
 - face contour detection
 - text recognition
 
-### dark mode
+### support dark mode
 
 </br>
 
