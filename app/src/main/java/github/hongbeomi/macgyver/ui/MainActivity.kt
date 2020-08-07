@@ -27,12 +27,10 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        cameraManager = CameraManager(
-            this,
-            binding.previewViewFinder,
-            this,
-            binding.graphicOverlayFinder
-        )
+        createCameraManager()
+        binding.fab.setOnClickListener {
+            binding.bottomNavigationView.transform(binding.fab)
+        }
         if (allPermissionsGranted()) {
             cameraManager.startCamera()
         } else {
@@ -50,10 +48,20 @@ class MainActivity : BaseActivity() {
             if (allPermissionsGranted()) {
                 cameraManager.startCamera()
             } else {
-                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT)
+                    .show()
                 finish()
             }
         }
+    }
+
+    private fun createCameraManager() {
+        cameraManager = CameraManager(
+            this,
+            binding.previewViewFinder,
+            this,
+            binding.graphicOverlayFinder
+        )
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
