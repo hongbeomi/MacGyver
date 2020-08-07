@@ -2,10 +2,8 @@ package github.hongbeomi.macgyver.camerax
 
 import android.content.Context
 import android.util.Log
-import androidx.camera.core.Camera
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.Preview
+import android.view.ScaleGestureDetector
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
@@ -63,6 +61,8 @@ class CameraManager(
                 val cameraSelector = CameraSelector.Builder()
                     .requireLensFacing(cameraSelectorOption)
                     .build()
+
+                setUpPinchToZoom()
                 setCameraConfig(cameraProvider, cameraSelector)
 
             }, ContextCompat.getMainExecutor(context)
@@ -112,6 +112,24 @@ class CameraManager(
             cameraProvider?.unbindAll()
             analyzerVisionType = visionType
             startCamera()
+        }
+    }
+
+    private fun setUpPinchToZoom() {
+        val listener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            override fun onScale(detector: ScaleGestureDetector): Boolean {
+                val currentZoomRatio: Float = camera?.cameraInfo?.zoomState?.value?.zoomRatio ?: 1F
+                val delta = detector.scaleFactor
+                camera?.cameraControl?.setZoomRatio(currentZoomRatio * delta)
+                return true
+            }
+        }
+        val scaleGestureDetector = ScaleGestureDetector(context, listener)
+        finderView.setOnTouchListener { _, event ->
+            finderView.post {
+                scaleGestureDetector.onTouchEvent(event)
+            }
+            return@setOnTouchListener true
         }
     }
 

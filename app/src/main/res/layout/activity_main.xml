@@ -19,7 +19,8 @@
     <androidx.camera.view.PreviewView
         android:id="@+id/previewView_finder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:scaleType="fillCenter"/>
 
     <github.hongbeomi.macgyver.camerax.GraphicOverlay
         android:id="@+id/graphicOverlay_finder"

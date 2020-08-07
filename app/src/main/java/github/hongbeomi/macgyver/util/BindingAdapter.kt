@@ -1,4 +1,4 @@
-package github.hongbeomi.macgyver.ui
+package github.hongbeomi.macgyver.util
 
 import android.view.View
 import androidx.databinding.BindingAdapter
