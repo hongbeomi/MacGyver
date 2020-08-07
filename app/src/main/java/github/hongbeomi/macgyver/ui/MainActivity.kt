@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import github.hongbeomi.macgyver.R
 import github.hongbeomi.macgyver.databinding.ActivityMainBinding
 import github.hongbeomi.macgyver.mlkit.vision.object_detection.ObjectDetectionProcessor
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -21,6 +22,7 @@ class MainActivity : BaseActivity() {
 
     private val binding by binding<ActivityMainBinding>(R.layout.activity_main)
     private var preview: Preview? = null
+    private val viewModel: MainViewModel by viewModel()
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
     private lateinit var cameraExecutor: ExecutorService

@@ -1,5 +1,0 @@
-{
-  "modelType": "OBJECT_DETECTION",
-  "modelFile": "mobilenet_v1_1.0_224_quant.tflite",
-  "labelsFile": "labels.txt"
-}

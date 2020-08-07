@@ -3,7 +3,6 @@ package github.hongbeomi.macgyver.mlkit.vision.object_detection
 import android.graphics.Rect
 import android.util.Log
 import com.google.android.gms.tasks.Task
-import com.google.android.gms.vision.MultiProcessor
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.ObjectDetection
