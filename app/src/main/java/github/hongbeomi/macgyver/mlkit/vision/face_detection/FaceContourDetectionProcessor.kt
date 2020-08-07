@@ -11,7 +11,8 @@ import github.hongbeomi.macgyver.camerax.BaseImageAnalyzer
 import github.hongbeomi.macgyver.camerax.GraphicOverlay
 import java.io.IOException
 
-class FaceContourDetectionProcessor(private val view: GraphicOverlay) : BaseImageAnalyzer<List<Face>>() {
+class FaceContourDetectionProcessor(private val view: GraphicOverlay) :
+    BaseImageAnalyzer<List<Face>>() {
 
     private val realTimeOpts = FaceDetectorOptions.Builder()
         .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)

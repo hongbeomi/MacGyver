@@ -7,7 +7,6 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.camera.core.CameraSelector
-import kotlin.math.abs
 import kotlin.math.ceil
 
 open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
@@ -59,9 +58,9 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
         fun translateX(horizontal: Float): Float {
             return if (overlay.mScale != null && overlay.mOffsetX != null && !overlay.isFrontMode()) {
                 (horizontal * overlay.mScale!!) + overlay.mOffsetX!!
-            } else if (overlay.mScale != null && overlay.mOffsetX != null && overlay.isFrontMode()){
+            } else if (overlay.mScale != null && overlay.mOffsetX != null && overlay.isFrontMode()) {
                 val centerX = overlay.width.toFloat() / 2
-                 centerX - ((horizontal * overlay.mScale!!) + overlay.mOffsetX!! - centerX)
+                centerX - ((horizontal * overlay.mScale!!) + overlay.mOffsetX!! - centerX)
             } else {
                 horizontal
             }

@@ -1,6 +1,9 @@
 package github.hongbeomi.macgyver.mlkit.vision.text_recognition
 
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
 import com.google.mlkit.vision.text.Text
 import github.hongbeomi.macgyver.camerax.GraphicOverlay
 

@@ -1,10 +1,13 @@
 package github.hongbeomi.macgyver.mlkit.vision.object_detection
 
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
 import com.google.mlkit.vision.objects.DetectedObject
 import github.hongbeomi.macgyver.camerax.GraphicOverlay
 
-class ObjectGraphic (
+class ObjectGraphic(
     overlay: GraphicOverlay,
     private val visionObject: DetectedObject,
     private val imageRect: Rect
@@ -25,7 +28,11 @@ class ObjectGraphic (
 
     override fun draw(canvas: Canvas?) {
         // change width & height because rocate
-        val rect = calculateRect(imageRect.height().toFloat(), imageRect.width().toFloat(), visionObject.boundingBox)
+        val rect = calculateRect(
+            imageRect.height().toFloat(),
+            imageRect.width().toFloat(),
+            visionObject.boundingBox
+        )
         canvas?.drawRoundRect(rect, TEXT_ROUND_CORNER, TEXT_ROUND_CORNER, boxPaint)
         // Draws object text.
         if (visionObject.labels.isNotEmpty()) {

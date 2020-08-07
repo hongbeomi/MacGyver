@@ -31,7 +31,7 @@ class ObjectDetectionProcessor(private val view: GraphicOverlay) :
         try {
             detector.close()
         } catch (e: IOException) {
-            Log.e(TAG, "Exception thrown while trying to close Text Detector: $e")
+            Log.e(TAG, "Exception thrown while trying to close Object Detector: $e")
         }
     }
 

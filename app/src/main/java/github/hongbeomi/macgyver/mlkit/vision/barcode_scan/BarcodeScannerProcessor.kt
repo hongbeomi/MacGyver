@@ -11,7 +11,8 @@ import github.hongbeomi.macgyver.camerax.BaseImageAnalyzer
 import github.hongbeomi.macgyver.camerax.GraphicOverlay
 import java.io.IOException
 
-class BarcodeScannerProcessor(private val view: GraphicOverlay) : BaseImageAnalyzer<List<Barcode>>() {
+class BarcodeScannerProcessor(private val view: GraphicOverlay) :
+    BaseImageAnalyzer<List<Barcode>>() {
 
     private val options = BarcodeScannerOptions.Builder().build()
     private val scanner = BarcodeScanning.getClient(options)

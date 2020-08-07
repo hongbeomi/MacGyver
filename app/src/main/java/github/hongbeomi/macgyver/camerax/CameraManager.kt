@@ -3,12 +3,15 @@ package github.hongbeomi.macgyver.camerax
 import android.content.Context
 import android.util.Log
 import android.view.ScaleGestureDetector
-import androidx.camera.core.*
+import androidx.camera.core.Camera
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import github.hongbeomi.macgyver.mlkit.base.VisionType
+import github.hongbeomi.macgyver.mlkit.vision.VisionType
 import github.hongbeomi.macgyver.mlkit.vision.barcode_scan.BarcodeScannerProcessor
 import github.hongbeomi.macgyver.mlkit.vision.face_detection.FaceContourDetectionProcessor
 import github.hongbeomi.macgyver.mlkit.vision.object_detection.ObjectDetectionProcessor

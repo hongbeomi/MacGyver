@@ -5,7 +5,7 @@ import github.hongbeomi.macgyver.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-class MacGyver: Application() {
+class MacGyver : Application() {
 
     override fun onCreate() {
         super.onCreate()

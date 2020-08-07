@@ -2,60 +2,63 @@
 <layout xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="github.hongbeomi.macgyver.ui.main.MainViewModel" />
     </data>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <androidx.camera.view.PreviewView
-        android:id="@+id/previewView_finder"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:scaleType="fillCenter"/>
+        tools:context=".ui.main.MainActivity">
 
-    <github.hongbeomi.macgyver.camerax.GraphicOverlay
-        android:id="@+id/graphicOverlay_finder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <github.hongbeomi.macgyver.ui.component.FabBottomNavigationView
-        android:id="@+id/bottomNavigationView_finder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:fab_cradle_margin="8dp"
-        app:fab_cradle_rounded_corner_radius="8dp"
-        app:fab_size="64dp"
-        app:top_corner_radius="16dp"
-        app:labelVisibilityMode="unlabeled"
-        app:itemIconTint="@color/bottom_nav_item_color"
-        app:menu="@menu/bottom_navigation"
-        bind:onNavigationItemSelected="@{viewModel::onBottomMenuClicked}"/>
+            <androidx.camera.view.PreviewView
+                android:id="@+id/previewView_finder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:scaleType="fillCenter" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_finder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_switch_camera"
-        android:clickable="true"
-        android:focusable="true"
-        bind:onFabClick="@{viewModel::onClickFabButton}"
-        app:fabCustomSize="64dp"
-        app:tint="@color/fab_icon_tint"
-        app:backgroundTint="@color/fab_tint"
-        app:layout_anchor="@id/bottomNavigationView_finder"
-        app:layout_anchorGravity="fill_vertical|center_horizontal"
-        app:elevation="16dp"/>
+            <github.hongbeomi.macgyver.camerax.GraphicOverlay
+                android:id="@+id/graphicOverlay_finder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <github.hongbeomi.macgyver.ui.component.FabBottomNavigationView
+            android:id="@+id/bottomNavigationView_finder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:fab_cradle_margin="8dp"
+            app:fab_cradle_rounded_corner_radius="8dp"
+            app:fab_size="64dp"
+            app:itemIconTint="@color/bottom_nav_item_color"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/bottom_navigation"
+            app:top_corner_radius="16dp"
+            bind:onNavigationItemSelected="@{viewModel::onBottomMenuClicked}" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_finder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_switch_camera"
+            app:backgroundTint="@color/fab_tint"
+            app:elevation="16dp"
+            app:fabCustomSize="64dp"
+            app:layout_anchor="@id/bottomNavigationView_finder"
+            app:layout_anchorGravity="fill_vertical|center_horizontal"
+            app:tint="@color/fab_icon_tint"
+            bind:onFabClick="@{viewModel::onClickFabButton}" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

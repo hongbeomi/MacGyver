@@ -5,7 +5,7 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import github.hongbeomi.macgyver.R
-import github.hongbeomi.macgyver.mlkit.base.VisionType
+import github.hongbeomi.macgyver.mlkit.vision.VisionType
 
 class MainViewModel : ViewModel() {
 

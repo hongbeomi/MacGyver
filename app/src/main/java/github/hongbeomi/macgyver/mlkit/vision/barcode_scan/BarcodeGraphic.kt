@@ -25,8 +25,8 @@ class BarcodeGraphic(
     }
 
     override fun draw(canvas: Canvas?) {
-        // Draws the bounding box around the BarcodeBlock.
         barcode.boundingBox?.let { box ->
+            // Draws the bounding box around the BarcodeBlock.
             val rect = calculateRect(
                 imageRect.height().toFloat(),
                 imageRect.width().toFloat(),

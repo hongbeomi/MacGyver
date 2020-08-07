@@ -9,7 +9,7 @@ import com.google.mlkit.vision.common.InputImage
 
 abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
 
-    abstract val graphicOverlay : GraphicOverlay
+    abstract val graphicOverlay: GraphicOverlay
 
     @SuppressLint("UnsafeExperimentalUsageError")
     override fun analyze(imageProxy: ImageProxy) {

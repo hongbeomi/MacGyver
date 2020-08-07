@@ -3,9 +3,9 @@
 
     <item
         android:id="@+id/action_barcode_scan"
+        android:enabled="true"
         android:icon="@drawable/ic_barcode_scanner"
-        android:title="@null"
-        android:enabled="true" />
+        android:title="@null" />
 
     <item
         android:id="@+id/action_face_detect"
@@ -18,14 +18,14 @@
 
     <item
         android:id="@+id/action_object_detect"
+        android:enabled="true"
         android:icon="@drawable/ic_objects"
-        android:title="@null"
-        android:enabled="true"/>
+        android:title="@null" />
 
     <item
         android:id="@+id/action_ocr"
+        android:enabled="true"
         android:icon="@drawable/ic_ocr"
-        android:title="@null"
-        android:enabled="true"/>
+        android:title="@null" />
 
 </menu>
