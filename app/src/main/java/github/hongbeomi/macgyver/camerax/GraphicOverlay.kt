@@ -25,6 +25,8 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
 
         fun calculateRect(height: Float, width: Float, boundingBoxT: Rect): RectF {
 
+            // why hight, width?
+            // because analyze image rotate value is 90
             val scaleX = overlay.width.toFloat() / height
             val scaleY = overlay.height.toFloat() / width
             val scale = scaleX.coerceAtLeast(scaleY)
