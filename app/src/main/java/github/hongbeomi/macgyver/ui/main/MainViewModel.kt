@@ -11,6 +11,7 @@ class MainViewModel : ViewModel() {
 
     val onItemSelectedEvent: MutableLiveData<VisionType> = MutableLiveData()
     val onFabButtonEvent: MutableLiveData<Unit?> = MutableLiveData()
+    val onShutterButtonEvent: MutableLiveData<Unit?> = MutableLiveData()
 
     fun onBottomMenuClicked(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -25,6 +26,10 @@ class MainViewModel : ViewModel() {
 
     fun onClickFabButton(view: View) {
         onFabButtonEvent.postValue(Unit)
+    }
+
+    fun onClickShutter(view: View) {
+        onShutterButtonEvent.postValue(Unit)
     }
 
     private fun postVisionType(type: VisionType) {

@@ -1,12 +1,10 @@
 package github.hongbeomi.macgyver.camerax
 
 import android.content.Context
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.ScaleGestureDetector
-import androidx.camera.core.Camera
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
@@ -18,6 +16,9 @@ import github.hongbeomi.macgyver.mlkit.vision.object_detection.ObjectDetectionPr
 import github.hongbeomi.macgyver.mlkit.vision.text_recognition.TextRecognitionProcessor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 
 class CameraManager(
     private val context: Context,
@@ -27,16 +28,20 @@ class CameraManager(
 ) {
 
     private var preview: Preview? = null
-
     private var camera: Camera? = null
-    private lateinit var cameraExecutor: ExecutorService
-    private var cameraSelectorOption = CameraSelector.LENS_FACING_BACK
     private var cameraProvider: ProcessCameraProvider? = null
-
     private var imageAnalyzer: ImageAnalysis? = null
+    private var screenAspectRatio: Int? = null
 
     // default barcode scanner
     private var analyzerVisionType: VisionType = VisionType.Barcode
+
+    lateinit var cameraExecutor: ExecutorService
+    lateinit var imageCapture: ImageCapture
+    lateinit var metrics: DisplayMetrics
+
+    var rotation: Float = 0f
+    var cameraSelectorOption = CameraSelector.LENS_FACING_BACK
 
     init {
         createNewExecutor()
@@ -44,32 +49,6 @@ class CameraManager(
 
     private fun createNewExecutor() {
         cameraExecutor = Executors.newSingleThreadExecutor()
-    }
-
-    fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
-        cameraProviderFuture.addListener(
-            Runnable {
-                cameraProvider = cameraProviderFuture.get()
-                preview = Preview.Builder()
-                    .build()
-
-                imageAnalyzer = ImageAnalysis.Builder()
-                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                    .build()
-                    .also {
-                        it.setAnalyzer(cameraExecutor, selectAnalyzer())
-                    }
-
-                val cameraSelector = CameraSelector.Builder()
-                    .requireLensFacing(cameraSelectorOption)
-                    .build()
-
-                setUpPinchToZoom()
-                setCameraConfig(cameraProvider, cameraSelector)
-
-            }, ContextCompat.getMainExecutor(context)
-        )
     }
 
     private fun selectAnalyzer(): ImageAnalysis.Analyzer {
@@ -91,6 +70,7 @@ class CameraManager(
                 lifecycleOwner,
                 cameraSelector,
                 preview,
+                imageCapture,
                 imageAnalyzer
             )
             preview?.setSurfaceProvider(
@@ -98,23 +78,6 @@ class CameraManager(
             )
         } catch (e: Exception) {
             Log.e(TAG, "Use case binding failed", e)
-        }
-    }
-
-    fun changeCameraSelector() {
-        cameraProvider?.unbindAll()
-        cameraSelectorOption =
-            if (cameraSelectorOption == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT
-            else CameraSelector.LENS_FACING_BACK
-        graphicOverlay.toggleSelector()
-        startCamera()
-    }
-
-    fun changeAnalyzer(visionType: VisionType) {
-        if (analyzerVisionType != visionType) {
-            cameraProvider?.unbindAll()
-            analyzerVisionType = visionType
-            startCamera()
         }
     }
 
@@ -136,7 +99,76 @@ class CameraManager(
         }
     }
 
+    private fun aspectRatio(width: Int, height: Int): Int {
+        val previewRatio = max(width, height).toDouble() / min(width, height)
+        if (abs(previewRatio - RATIO_4_3_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE)) {
+            return AspectRatio.RATIO_4_3
+        }
+        return AspectRatio.RATIO_16_9
+    }
+
+    fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+        cameraProviderFuture.addListener(
+            Runnable {
+                cameraProvider = cameraProviderFuture.get()
+                preview = Preview.Builder().build()
+
+                imageAnalyzer = ImageAnalysis.Builder()
+                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                    .build()
+                    .also {
+                        it.setAnalyzer(cameraExecutor, selectAnalyzer())
+                    }
+
+                val cameraSelector = CameraSelector.Builder()
+                    .requireLensFacing(cameraSelectorOption)
+                    .build()
+
+                metrics =  DisplayMetrics().also { finderView.display.getRealMetrics(it) }
+                screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
+
+                imageCapture =
+                    ImageCapture.Builder()
+                        .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+                        .setTargetAspectRatio(screenAspectRatio!!)
+                        .build()
+
+                setUpPinchToZoom()
+                setCameraConfig(cameraProvider, cameraSelector)
+
+            }, ContextCompat.getMainExecutor(context)
+        )
+    }
+
+    fun changeCameraSelector() {
+        cameraProvider?.unbindAll()
+        cameraSelectorOption =
+            if (cameraSelectorOption == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT
+            else CameraSelector.LENS_FACING_BACK
+        graphicOverlay.toggleSelector()
+        startCamera()
+    }
+
+    fun changeAnalyzer(visionType: VisionType) {
+        if (analyzerVisionType != visionType) {
+            cameraProvider?.unbindAll()
+            analyzerVisionType = visionType
+            startCamera()
+        }
+    }
+
+    fun isHorizontalMode() : Boolean {
+        return rotation == 90f || rotation == 270f
+    }
+
+    fun isFrontMode() : Boolean {
+        return cameraSelectorOption == CameraSelector.LENS_FACING_FRONT
+    }
+
     companion object {
+        private const val RATIO_4_3_VALUE = 4.0 / 3.0
+        private const val RATIO_16_9_VALUE = 16.0 / 9.0
         private const val TAG = "CameraXBasic"
     }
 

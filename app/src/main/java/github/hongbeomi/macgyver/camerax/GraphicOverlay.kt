@@ -2,6 +2,7 @@ package github.hongbeomi.macgyver.camerax
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.RectF
@@ -19,6 +20,8 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
     var mOffsetX: Float? = null
     var mOffsetY: Float? = null
     var cameraSelector: Int = CameraSelector.LENS_FACING_BACK
+    lateinit var processBitmap: Bitmap
+    lateinit var processCanvas: Canvas
 
     abstract class Graphic(private val overlay: GraphicOverlay) {
 
@@ -118,11 +121,18 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
         postInvalidate()
     }
 
+    private fun initProcessCanvas () {
+        processBitmap = Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_8888)
+        processCanvas = Canvas(processBitmap)
+    }
+
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         synchronized(lock) {
-            for (graphic in graphics) {
-                graphic.draw(canvas)
+            initProcessCanvas()
+            graphics.forEach {
+                it.draw(canvas)
+                it.draw(processCanvas)
             }
         }
     }

@@ -62,12 +62,4 @@ class FabBottomNavigationView @JvmOverloads constructor(
         background = materialShapeDrawable
     }
 
-    fun transform(fab: FloatingActionButton) {
-        fab.hide(object : FloatingActionButton.OnVisibilityChangedListener() {
-            override fun onHidden(fab: FloatingActionButton?) {
-                super.onHidden(fab)
-                fab?.show()
-            }
-        })
-    }
 }
