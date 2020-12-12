@@ -25,6 +25,7 @@ Go to ths [releases](https://github.com/hongbeomi/MacGyver/releases/download/v1.
 
 - selfie mode
 - pinch zoom
+- take a photo
 
 ### vision
 
