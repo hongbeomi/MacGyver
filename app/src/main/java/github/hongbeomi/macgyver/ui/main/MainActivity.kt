@@ -89,7 +89,7 @@ class MainActivity : BaseActivity() {
 
     private fun takePicture() {
         // shutter effect
-        binding.fabShutter.transform()
+        Toast.makeText(this, "take a picture!", Toast.LENGTH_SHORT).show()
         setOrientationEvent()
 
         cameraManager.imageCapture.takePicture(

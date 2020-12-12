@@ -60,19 +60,18 @@
             app:tint="@color/fab_icon_tint"
             bind:onFabClick="@{viewModel::onClickFabButton}" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_shutter"
+        <ImageButton
+            android:id="@+id/imageButton_shutter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
-            app:backgroundTint="@android:color/transparent"
-            app:tint="@null"
             android:onClick="@{viewModel::onClickShutter}"
             android:src="@drawable/ic_shutter"
-            app:layout_anchor="@id/bottomNavigationView_finder"
-            app:layout_anchorGravity="end"
-            android:layout_marginBottom="64dp"/>
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="120dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@android:color/transparent" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
