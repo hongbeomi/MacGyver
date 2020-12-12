@@ -18,13 +18,6 @@ import java.io.FileOutputStream
 abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
 
     abstract val graphicOverlay: GraphicOverlay
-    private var saveAction: ((Context) -> Unit)? = null
-
-//    var onTakePictureListener: OnTakePictureListener = object : OnTakePictureListener {
-//        override fun onTakePicture(context: Context) {
-//            saveAction?.invoke(context)
-//        }
-//    }
 
     @SuppressLint("UnsafeExperimentalUsageError")
     override fun analyze(imageProxy: ImageProxy) {
@@ -39,6 +32,8 @@ abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
                     )
                 }
                 .addOnFailureListener {
+                    graphicOverlay.clear()
+                    graphicOverlay.postInvalidate()
                     onFailure(it)
                 }
                 .addOnCompleteListener {
