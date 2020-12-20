@@ -3,6 +3,7 @@ package github.hongbeomi.macgyver.camerax
 import android.content.Context
 import android.util.DisplayMetrics
 import android.util.Log
+import android.util.Size
 import android.view.ScaleGestureDetector
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -31,7 +32,6 @@ class CameraManager(
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
     private var imageAnalyzer: ImageAnalysis? = null
-    private var screenAspectRatio: Int? = null
 
     // default barcode scanner
     private var analyzerVisionType: VisionType = VisionType.Barcode
@@ -99,14 +99,6 @@ class CameraManager(
         }
     }
 
-    private fun aspectRatio(width: Int, height: Int): Int {
-        val previewRatio = max(width, height).toDouble() / min(width, height)
-        if (abs(previewRatio - RATIO_4_3_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE)) {
-            return AspectRatio.RATIO_4_3
-        }
-        return AspectRatio.RATIO_16_9
-    }
-
     fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
         cameraProviderFuture.addListener(
@@ -126,12 +118,10 @@ class CameraManager(
                     .build()
 
                 metrics =  DisplayMetrics().also { finderView.display.getRealMetrics(it) }
-                screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
 
                 imageCapture =
                     ImageCapture.Builder()
-                        .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
-                        .setTargetAspectRatio(screenAspectRatio!!)
+                        .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
                         .build()
 
                 setUpPinchToZoom()
